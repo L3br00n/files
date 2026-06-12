@@ -1,610 +1,175 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Loader Hub</title>
-    <style>
-      @import url('https://fonts.cdnfonts.com/css/minecraftia');
-      @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+<head>
+<meta charset="UTF-8">
+<title>Client Loader</title>
 
-      :root {
-        --mc-bg: #151515;
-        --mc-panel: #2a2a2a;
-        --mc-panel-top: #303030;
-        --mc-border-dark: #0a0a0a;
-        --mc-border-light: #4b4b4b;
+<style>
+  body {
+    font-family: Arial, sans-serif;
+  }
 
-        --mc-green: #5dbb63;
-        --mc-green-light: #7dff7d;
-        --mc-green-dark: #2f6b2f;
+  button {
+    display: block;
+    width: 100%;
+    margin: 6px 0;
+    padding: 10px;
+    cursor: pointer;
+  }
 
-        --mc-red: #c0392b;
-        --mc-red-light: #ff6b5c;
-        --mc-red-dark: #7a1f17;
+  /* ⭐ STARRED STYLE (BLUE OUTLINE) */
+  .starred {
+    border: 2px solid #3b82f6;
+    background: #eef5ff;
+  }
 
-        --mc-text: #e0e0e0;
-        --mc-glow: rgba(109, 255, 109, 0.35);
+  .starred:hover {
+    outline: 2px solid #3b82f6;
+  }
+</style>
+</head>
+
+<body>
+
+<div>
+  <h1>CLIENT LOADER</h1>
+  <p>remember to click 5 times on loading screen</p>
+</div>
+
+<button id="panicBtn" onclick='document.open();document.write("<html><body style=&quot;background:white;margin:0&quot;></body></html>");document.close();'>
+PANIC BUTTON
+</button>
+
+<button id="setKey" onclick='
+this.innerText="SET KEYBIND: ...";
+window.awaitKey=true;
+window.onkeydown=function(e){
+  if(window.awaitKey){
+    window.panicKey=e.key;
+    document.getElementById("setKey").innerText="SET KEYBIND: "+e.key;
+    window.awaitKey=false;
+    window.onkeydown=function(e){
+      if(e.key===window.panicKey){
+        document.getElementById("panicBtn").click();
       }
+    };
+  }
+}
+'>
+SET KEYBIND
+</button>
 
-      * {
-        box-sizing: border-box;
-        image-rendering: pixelated;
-      }
+<button onclick='const w=window.open("about:blank","_blank");fetch("https://raw.githubusercontent.com/L3br00n/Doc-Iframe-1/refs/heads/main/index.html?t="+Date.now()).then(r=>r.text()).then(t=>{w.document.open();w.document.write(t);w.document.close();});'>
+All Game Scripts
+</button>
 
-      html, body {
-        margin: 0;
-        padding: 0;
-        background:
-          radial-gradient(circle at top, #2b2b2b, #0f0f0f),
-          repeating-linear-gradient(
-            rgba(255,255,255,0.02) 0px,
-            rgba(255,255,255,0.02) 1px,
-            transparent 1px,
-            transparent 3px
-          );
-        color: var(--mc-text);
-        font-family: 'Minecraftia', 'Press Start 2P', monospace;
-      }
+<button onclick='const w=window.open("about:blank","_blank");fetch("https://raw.githubusercontent.com/L3br00n/tools/refs/heads/main/index.html?t="+Date.now()).then(r=>r.text()).then(t=>{w.document.open();w.document.write(t);w.document.close();});'>
+Tools
+</button>
 
-      /* ================= HEADERS ================= */
+<button onclick='const w=window.open("about:blank","_blank");fetch("https://raw.githubusercontent.com/L3br00n/browser/refs/heads/main/index.html?t="+Date.now()).then(r=>r.text()).then(t=>{w.document.open();w.document.write(t);w.document.close();});'>
+Iframe Browser
+</button>
 
-      h1 {
-        text-align: center;
-        margin: 24px 0 12px;
-        font-size: 28px;
-        text-shadow:
-          2px 2px #000,
-          0 0 10px var(--mc-glow);
-      }
+<hr>
 
-      h2 {
-        margin: 0 0 12px;
-        font-size: 15px;
-        color: #9fd39f;
-        text-shadow: 1px 1px #000;
-      }
-      h3 {
-        margin: 0 0 12px;
-        font-size: 13px;
-        color: #ffffff;
-        text-shadow: 1px 1px #000;
-        text-align: center;
-        text-shadow:
-          2px 2px #000,
-          0 0 50px var(--mc-glow);
-      }
+<h2>Regular Clients</h2>
 
-      /* ================= PANELS ================= */
+<button onclick='const w=window.open("about:blank","_blank"); const html=`<html><head><title>Minecraft 1.8</title></head><body></body></html>`; w.document.open(); w.document.write(html); w.document.close();'>
+Minecraft 1.8
+</button>
 
-      .category {
-        background: linear-gradient(var(--mc-panel-top), var(--mc-panel));
-        border: 3px solid var(--mc-border-dark);
-        border-right-color: var(--mc-border-light);
-        border-bottom-color: var(--mc-border-light);
-        padding: 16px;
-        margin: 18px 0;
-        box-shadow:
-          inset 0 0 0 2px #1a1a1a,
-          0 6px 0 #0b0b0b;
-      }
-      .centerp {
-        text-align: center
-      }
-      /* ================= BUTTONS ================= */
+<button onclick='const w=window.open("about:blank","_blank"); fetch("https://raw.githubusercontent.com/ceemeck/eaglercraft-fork/refs/heads/main/vanilla/1.9/EaglercraftY_1.9_Offline_Signed_Client.html?t="+Date.now()).then(r=>r.text()).then(h=>{w.document.open();w.document.write(h);w.document.close();});'>
+Minecraft 1.9
+</button>
 
-      button {
-        background: linear-gradient(var(--mc-green-light), var(--mc-green));
-        border: 2px solid var(--mc-border-dark);
-        border-right-color: var(--mc-border-light);
-        border-bottom-color: var(--mc-border-light);
-        color: #0b2b0b;
+<button onclick='const w=window.open("about:blank","_blank"); fetch("https://raw.githubusercontent.com/ceemeck/eaglercraft-fork/refs/heads/main/vanilla/1.11/EaglercraftZ_1.11.html?t="+Date.now()).then(r=>r.text()).then(h=>{w.document.open();w.document.write(h);w.document.close();});'>
+Minecraft 1.11
+</button>
 
-        padding: 12px 14px;
-        margin: 8px 0;
-        width: 100%;
+<button onclick='const w=window.open("about:blank","_blank"); fetch("https://raw.githubusercontent.com/ceemeck/eaglercraft-fork/refs/heads/main/vanilla/1.12/u2/Eaglercraft_1.12.2_WASM_Offline_Download.html?t="+Date.now()).then(r=>r.text()).then(h=>{w.document.open();w.document.write(h);w.document.close();});'>
+Minecraft 1.12
+</button>
 
-        font-family: inherit;
-        font-size: 12px;
-        cursor: pointer;
+<button onclick='const w=window.open("about:blank","_blank"); fetch("https://raw.githubusercontent.com/ShadowNetworkDevs/Eclipse-Client/refs/heads/main/Eclipse%20Wasm.html?t="+Date.now()).then(r=>r.text()).then(h=>{w.document.open();w.document.write(h);w.document.close();});'>
+Minecraft 1.19
+</button>
 
-        text-shadow: 1px 1px #b6ffb6;
-        box-shadow:
-          inset 0 0 0 2px var(--mc-green-dark),
-          0 4px 0 #0b0b0b;
+<button onclick='const w=window.open("about:blank","_blank"); fetch("https://raw.githubusercontent.com/ceemeck/eaglercraft-fork/refs/heads/main/modded/eaglymc/u7/Eaglymc_offline_u7_javascript.html?t="+Date.now()).then(r=>r.text()).then(h=>{w.document.open();w.document.write(h);w.document.close();});'>
+Minecraft 1.20
+</button>
 
-        transition:
-          transform 0.05s linear,
-          filter 0.1s linear;
-      }
+<hr>
 
-      button:hover {
-        filter: brightness(1.15);
-      }
+<h2>Modded Clients</h2>
 
-      button:active {
-        transform: translateY(3px);
-        box-shadow:
-          inset 0 0 0 2px var(--mc-green-dark),
-          0 1px 0 #0b0b0b;
-      }
+<button class="starred" onclick='const w=window.open("about:blank","_blank");fetch("https://raw.githubusercontent.com/DhyeyTheEaglercrafter/Resent-5.0-Leaked/refs/heads/main/index.html?t="+Date.now()).then(r=>r.text()).then(h=>{w.document.open();w.document.write(h);w.document.close();});'>
+Resent
+</button>
 
-      .starred {
-        background: linear-gradient(#ffe88a, #f2c200);
-        border: 2px solid #a88400;
-        border-right-color: #ffe08a;
-        border-bottom-color: #ffe08a;
-        color: #4a3b00;
+<button class="starred" onclick='const w=window.open("about:blank","_blank");fetch("https://raw.githubusercontent.com/ceemeck/eaglercraft-fork/refs/heads/main/modded/tuffclient/1.0.0/TuffClient_WASM_Offline.html?t="+Date.now()).then(r=>r.text()).then(h=>{w.document.open();w.document.write(h);w.document.close();});'>
+Tuff Client
+</button>
 
-        padding: 12px 14px;
-        margin: 8px 0;
-        width: 100%;
+<button onclick='const w=window.open("about:blank","_blank");fetch("https://raw.githubusercontent.com/LunaCraftX/LunaClient/refs/heads/main/LunaClientX_en_us.html?t="+Date.now()).then(r=>r.text()).then(h=>{w.document.open();w.document.write(h);w.document.close();});'>
+Luna Client
+</button>
 
-        font-family: inherit;
-        font-size: 12px;
-        font-weight: bold;
-        cursor: pointer;
+<button onclick='const w=window.open("about:blank","_blank");fetch("https://raw.githubusercontent.com/ceemeck/eaglercraft-fork/refs/heads/main/modded/starlike/0.2.0/Starlike_Client_Offline.html?t="+Date.now()).then(r=>r.text()).then(h=>{w.document.open();w.document.write(h);w.document.close();});'>
+Starlike
+</button>
 
-        text-shadow: 1px 1px #fff3c4;
-        box-shadow:
-          inset 0 0 0 2px #ffd24d,
-          0 3px 0 #6f5600;
+<button onclick='const w=window.open("about:blank","_blank");fetch("https://raw.githubusercontent.com/catfoolyou/EagsWebTest/refs/heads/main/Eaglercraft_1.12_Offline_en_US.html?t="+Date.now()).then(r=>r.text()).then(h=>{w.document.open();w.document.write(h);w.document.close();});'>
+EaglyMC
+</button>
 
-        transition:
-          transform 0.05s linear,
-          filter 0.1s linear;
-      }
+<button onclick='const w=window.open("about:blank","_blank");fetch("https://raw.githubusercontent.com/ceemeck/eaglercraft-fork/refs/heads/main/modded/eaglerforge-old/v1.3.2/EaglerForge_v1.3.2_1.8_Offline_International.html?t="+Date.now()).then(r=>r.text()).then(h=>{w.document.open();w.document.write(h);w.document.close();});'>
+Mod Loader
+</button>
 
-      .starred:hover {
-        filter: brightness(1.05);
-      }
+<hr>
 
-      .starred:active {
-        transform: translateY(2px);
-        box-shadow:
-          inset 0 0 0 2px #ffd24d,
-          0 1px 0 #6f5600;
-      }
+<h2>Cheat Clients</h2>
 
-      /* ================= PANIC BUTTON ================= */
+<button class="starred" onclick='const w=window.open("about:blank","_blank");fetch("https://raw.githubusercontent.com/ghjjhghj/DragonX-V5/refs/heads/main/index.html?t="+Date.now()).then(r=>r.text()).then(h=>{w.document.open();w.document.write(h);w.document.close();});'>
+Dragon V1.5 / V5
+</button>
 
-      #panicBtn {
-        background: linear-gradient(var(--mc-red-light), var(--mc-red));
-        color: #2b0000;
-        text-shadow: 1px 1px #ffb3b3;
-        box-shadow:
-          inset 0 0 0 2px var(--mc-red-dark),
-          0 4px 0 #0b0b0b;
-      }
+<button class="starred" onclick='const w=window.open("about:blank","_blank");fetch("https://raw.githubusercontent.com/ceemeck/eaglercraft-fork/refs/heads/main/modded/justinclient/v3/beta-9/v3b9.html?t="+Date.now()).then(r=>r.text()).then(h=>{w.document.open();w.document.write(h);w.document.close();});'>
+Justin Client
+</button>
 
-      #panicBtn:hover {
-        filter: brightness(1.15);
-      }
+<button onclick='const w=window.open("about:blank","_blank");fetch("https://raw.githubusercontent.com/odinhansen26-source/Eaglercraft-hacks/refs/heads/main/AutoClient.html?t="+Date.now()).then(r=>r.text()).then(h=>{w.document.open();w.document.write(h);w.document.close();});'>
+AutoClient
+</button>
 
-      #panicBtn:active {
-        transform: translateY(3px);
-        box-shadow:
-          inset 0 0 0 2px var(--mc-red-dark),
-          0 1px 0 #0b0b0b;
-      }
+<button onclick='const w=window.open("about:blank","_blank");fetch("https://raw.githubusercontent.com/ProxyNova-MC/EaglerHacks/refs/heads/main/DragonX%20V3%20Client.html?t="+Date.now()).then(r=>r.text()).then(h=>{w.document.open();w.document.write(h);w.document.close();});'>
+DragonX V3
+</button>
 
-      /* ================= LAYOUT ================= */
+<button onclick='const w=window.open("about:blank","_blank");fetch("https://raw.githubusercontent.com/iBwrnn/EaglerClientArchive-1.8/refs/heads/main/Clients/Hacked/UwUClient%20v1%20Full.html?t="+Date.now()).then(r=>r.text()).then(h=>{w.document.open();w.document.write(h);w.document.close();});'>
+UwU Client
+</button>
 
-      body {
-        max-width: 1000px;
-        margin: auto;
-        padding: 14px;
-      }
+<button onclick='const w=window.open("about:blank","_blank");fetch("https://raw.githubusercontent.com/FlamePVPCodes/Eaglercraft-Clients/refs/heads/main/flameclient%203.7.html?t="+Date.now()).then(r=>r.text()).then(h=>{w.document.open();w.document.write(h);w.document.close();});'>
+Flame Client
+</button>
 
-      /* ================= PIXEL FOCUS ================= */
+<button onclick='const w=window.open("about:blank","_blank");fetch("https://raw.githubusercontent.com/HighlandsGames/highlandsgames.github.io/refs/heads/main/index.html?t="+Date.now()).then(r=>r.text()).then(h=>{w.document.open();w.document.write(h);w.document.close();});'>
+Highlander
+</button>
 
-      button:focus-visible {
-        outline: 2px dashed #9aff9a;
-        outline-offset: 3px;
-      }
+<button onclick='const w=window.open("about:blank","_blank");fetch("https://raw.githubusercontent.com/iBwrnn/EaglerClientArchive-1.8/refs/heads/main/Clients/Hacked/PremiumDragonv2.html?t="+Date.now()).then(r=>r.text()).then(h=>{w.document.open();w.document.write(h);w.document.close();});'>
+DragonX 1.1
+</button>
 
-    </style>
-  </head>
-  <body>
-    <h1>Client Loader</h1>
-    <h3> remember to click 5 times on loading screen </h3>
-    <button id="panicBtn" onclick="document.open();document.write('&lt;html&gt;&lt;body style=&quot;background:white;margin:0&quot;&gt;&lt;/body&gt;&lt;/html&gt;');document.close()">PANIC BUTTON</button>
-    <button id="setKey" onclick="
-                                 this.innerText='SET KEYBIND: ...';
-                                 window.awaitKey=true;
-                                 window.onkeydown=function(e){
-                                 if(window.awaitKey){
-                                 window.panicKey=e.key;
-                                 document.getElementById('setKey').innerText='SET KEYBIND: '+e.key;
-                                 window.awaitKey=false;
-                                 window.onkeydown=function(e){if(e.key===window.panicKey){document.getElementById('panicBtn').click()}};
-                                 }
-                                 }
-                                 ">SET KEYBIND: [EMPTY]</button>
+<button onclick='const w=window.open("about:blank","_blank");fetch("https://raw.githubusercontent.com/iBwrnn/EaglerClientArchive-1.8/refs/heads/main/Clients/Hacked/DragonX_V4.html?t="+Date.now()).then(r=>r.text()).then(h=>{w.document.open();w.document.write(h);w.document.close();});'>
+DragonX V4
+</button>
 
+<button onclick='const w=window.open("about:blank","_blank");fetch("https://raw.githubusercontent.com/dhyeybg5-hash/WurstX-Client-6.35.3/refs/heads/main/WurstX_b2_1.8_WASM-GC_Offline_Download.html?t="+Date.now()).then(r=>r.text()).then(h=>{w.document.open();w.document.write(h);w.document.close();});'>
+WurstX
+</button>
 
-
-    <button
-            onclick="
-                     const w = window.open('about:blank');
-                     fetch('https://raw.githubusercontent.com/L3br00n/Doc-Iframe-1/refs/heads/main/index.html')
-                     .then(r => r.text())
-                     .then(t => {
-                     w.document.open();
-                     w.document.write(t);
-                     w.document.close();
-                     });
-                     "
-            >
-      All Game Scripts
-    </button>
-    <button
-            onclick="
-                     const w = window.open('about:blank');
-                     fetch('https://raw.githubusercontent.com/L3br00n/tools/refs/heads/main/index.html')
-                     .then(r => r.text())
-                     .then(t => {
-                     w.document.open();
-                     w.document.write(t);
-                     w.document.close();
-                     });
-                     "
-            >
-      Tools
-    </button>
-    <button
-            onclick="
-                     const w = window.open('about:blank');
-                     fetch('https://raw.githubusercontent.com/L3br00n/browser/refs/heads/main/index.html')
-                     .then(r => r.text())
-                     .then(t => {
-                     w.document.open();
-                     w.document.write(t);
-                     w.document.close();
-                     });
-                     "
-            >
-      Iframe Browser (Might not work)
-    </button>
-    <div id="regular" class="category">
-      <h2>Regular Clients</h2>
-      <button onclick="
-                       const w = window.open(&quot;about:blank&quot;,&quot;_blank&quot;);
-                       const html = `
-                       &lt;html&gt;
-                       &lt;head&gt;
-                       &lt;title&gt;Minecraft 1.8&lt;/title&gt;
-                       &lt;meta charset=&quot;UTF-8&quot; /&gt;
-                       &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot; /&gt;
-                       &lt;style&gt;
-                       html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; }
-                       #game_frame { width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; background-color: #000; }
-                       &lt;/style&gt;
-                       &lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.jsdelivr.net/gh/bubbls/loltheygotbannedfromjsdelivr@38f40924ae70b843f3d4d0a5dc3d6ba13ca3a461/classes.min.js&quot;&gt;&lt;/script&gt;
-                       &lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.jsdelivr.net/gh/bubbls/loltheygotbannedfromjsdelivr@38f40924ae70b843f3d4d0a5dc3d6ba13ca3a461/fix-webm-duration.js&quot;&gt;&lt;/script&gt;
-                       &lt;script type=&quot;text/javascript&quot;&gt;
-                       window.addEventListener(&quot;load&quot;, () =&gt; {
-                       window.focus();
-                       document.body.addEventListener(&quot;click&quot;, () =&gt; window.focus(), false);
-                       if (!window.eaglercraftXOpts) {
-                       window.eaglercraftXOpts = {
-                       container: &quot;game_frame&quot;,
-                       assetsURI: &quot;https://cdn.jsdelivr.net/gh/bubbls/loltheygotbannedfromjsdelivr@38f40924ae70b843f3d4d0a5dc3d6ba13ca3a461/assets.epk&quot;,
-                       localesURI: &quot;lang/&quot;,
-                       servers: [
-                       { addr: &quot;wss://mc.arch.lol/&quot;, name: &quot;ArchMC&quot; },
-                       { addr: &quot;wss://mc.asspixel.net&quot;, name: &quot;AssPixel&quot; },
-                       { addr: &quot;wss://sus.shhnowisnottheti.me&quot;, name: &quot;Ayunboom&quot; },
-                       { addr: &quot;wss://aeon-network.net/1.8&quot;, name: &quot;Aeon&quot; },
-                       { addr: &quot;wss://zentic.org/&quot;, name: &quot;Zentic&quot; }
-                       ]
-                       };
-                       }
-                       let container = document.querySelector(&quot;#&quot; + window.eaglercraftXOpts.container);
-                       if (!container) {
-                       container = document.createElement(&quot;div&quot;);
-                       container.id = window.eaglercraftXOpts.container;
-                       document.body.appendChild(container);
-                       }
-                       try { main(); } catch(e) { console.error(&quot;Error starting EaglercraftX:&quot;, e); }
-                       });
-                       &lt;/script&gt;
-                       &lt;/head&gt;
-                       &lt;body&gt;
-                       &lt;div id=&quot;game_frame&quot;&gt;&lt;/div&gt;
-                       &lt;div class=&quot;_eaglercraftX_wrapper_element&quot;&gt;&lt;/div&gt;
-                       &lt;div id=&quot;_eaglercraftX_crashReason&quot; style=&quot;display:none;&quot;&gt;&lt;/div&gt;
-                       &lt;div id=&quot;_eaglercraftX_crashUserAgent&quot; style=&quot;display:none;&quot;&gt;&lt;/div&gt;
-                       &lt;/body&gt;
-                       &lt;/html&gt;
-                       `;
-                       w.document.open();
-                       w.document.write(html);
-                       w.document.close();
-                       ">Minecraft 1.8</button>
-
-      <button onclick="
-                       const w=window.open(&quot;about:blank&quot;,&quot;_blank&quot;);
-                       fetch(&quot;https://raw.githubusercontent.com/ceemeck/eaglercraft-fork/refs/heads/main/vanilla/1.9/EaglercraftY_1.9_Offline_Signed_Client.html?t=&quot;+Date.now())
-                       .then(r=&gt;r.text()).then(h=&gt;{w.document.open();w.document.write(h);w.document.close();});
-                       ">Minecraft 1.9</button>
-
-      <button onclick="
-                       const w=window.open(&quot;about:blank&quot;,&quot;_blank&quot;);
-                       fetch(&quot;https://raw.githubusercontent.com/ceemeck/eaglercraft-fork/refs/heads/main/vanilla/1.11/EaglercraftZ_1.11.html?t=&quot;+Date.now())
-                       .then(r=&gt;r.text()).then(h=&gt;{w.document.open();w.document.write(h);w.document.close();});
-                       ">Minecraft 1.11</button>
-
-      <button onclick="
-                       const w=window.open(&quot;about:blank&quot;,&quot;_blank&quot;);
-                       fetch(&quot;https://raw.githubusercontent.com/ceemeck/eaglercraft-fork/refs/heads/main/vanilla/1.12/u2/Eaglercraft_1.12.2_WASM_Offline_Download.html?t=&quot;+Date.now())
-                       .then(r=&gt;r.text()).then(h=&gt;{w.document.open();w.document.write(h);w.document.close();});
-                       ">Minecraft 1.12</button>
-
-      <button onclick="
-                       const w=window.open(&quot;about:blank&quot;,&quot;_blank&quot;);
-                       fetch(&quot;https://raw.githubusercontent.com/ShadowNetworkDevs/Eclipse-Client/refs/heads/main/Eclipse%20Wasm.html?t=&quot;+Date.now())
-                       .then(r=&gt;r.text()).then(h=&gt;{w.document.open();w.document.write(h);w.document.close();});
-                       ">Minecraft 1.19</button>
-
-      <button onclick="
-                       const w=window.open(&quot;about:blank&quot;,&quot;_blank&quot;);
-                       fetch(&quot;https://raw.githubusercontent.com/ceemeck/eaglercraft-fork/refs/heads/main/modded/eaglymc/u7/Eaglymc_offline_u7_javascript.html?t=&quot;+Date.now())
-                       .then(r=&gt;r.text()).then(h=&gt;{w.document.open();w.document.write(h);w.document.close();});
-                       ">Minecraft 1.20</button>
-    </div>
-
-    <!-- ================= MODDED ================= -->
-    <div id="modded" class="category">
-      <h2>Modded Clients</h2>
-
-      <button class=starred onclick="
-                                     const w=window.open(&quot;about:blank&quot;,&quot;_blank&quot;);
-                                     fetch(&quot;https://raw.githubusercontent.com/DhyeyTheEaglercrafter/Resent-5.0-Leaked/refs/heads/main/index.html?t=&quot;+Date.now())
-                                     .then(r=&gt;r.text()).then(h=&gt;{w.document.open();w.document.write(h);w.document.close();});
-                                     ">Resent</button>
-
-      <button class=starred onclick="
-                                     const w=window.open(&quot;about:blank&quot;,&quot;_blank&quot;);
-                                     fetch(&quot;https://raw.githubusercontent.com/ceemeck/eaglercraft-fork/refs/heads/main/modded/tuffclient/1.0.0/TuffClient_WASM_Offline.html?t=&quot;+Date.now())
-                                     .then(r=&gt;r.text()).then(h=&gt;{w.document.open();w.document.write(h);w.document.close();});
-                                     ">Tuff Client</button>
-
-      <button onclick="
-                       const w=window.open(&quot;about:blank&quot;,&quot;_blank&quot;);
-                       fetch(&quot;https://raw.githubusercontent.com/LunaCraftX/LunaClient/refs/heads/main/LunaClientX_en_us.html?t=&quot;+Date.now())
-                       .then(r=&gt;r.text()).then(h=&gt;{w.document.open();w.document.write(h);w.document.close();});
-                       ">Luna Client</button>
-
-      <button onclick="
-                       const w=window.open(&quot;about:blank&quot;,&quot;_blank&quot;);
-                       fetch(&quot;https://raw.githubusercontent.com/ceemeck/eaglercraft-fork/refs/heads/main/modded/starlike/0.2.0/Starlike_Client_Offline.html?t=&quot;+Date.now())
-                       .then(r=&gt;r.text()).then(h=&gt;{w.document.open();w.document.write(h);w.document.close();});
-                       ">Starlike</button>
-
-      <button onclick="
-                       const w=window.open(&quot;about:blank&quot;,&quot;_blank&quot;);
-                       fetch(&quot;https://raw.githubusercontent.com/catfoolyou/EagsWebTest/refs/heads/main/Eaglercraft_1.12_Offline_en_US.html?t=&quot;+Date.now())
-                       .then(r=&gt;r.text()).then(h=&gt;{w.document.open();w.document.write(h);w.document.close();});
-                       ">EaglyMC</button>
-
-      <button onclick="
-                       const w=window.open(&quot;about:blank&quot;,&quot;_blank&quot;);
-                       fetch(&quot;https://raw.githubusercontent.com/ceemeck/eaglercraft-fork/refs/heads/main/modded/eaglerforge-old/v1.3.2/EaglerForge_v1.3.2_1.8_Offline_International.html?t=&quot;+Date.now())
-                       .then(r=&gt;r.text()).then(h=&gt;{w.document.open();w.document.write(h);w.document.close();});
-                       ">Mod Loader</button>
-    </div>
-
-    <!-- ================= CHEATS ================= -->
-    <div id="cheats" class="category">
-      <h2>Cheat Clients</h2>
-
-      <button class=starred onclick="
-                                     const w=window.open(&quot;about:blank&quot;,&quot;_blank&quot;);
-                                     fetch(&quot;https://raw.githubusercontent.com/ghjjhghj/DragonX-V5/refs/heads/main/index.html?t=&quot;+Date.now())
-                                     .then(r=&gt;r.text()).then(h=&gt;{w.document.open();w.document.write(h);w.document.close();});
-                                     ">Dragon V1.5 / V5</button>
-
-      <button class=starred onclick="
-                                     const w=window.open(&quot;about:blank&quot;,&quot;_blank&quot;);
-                                     fetch(&quot;https://raw.githubusercontent.com/ceemeck/eaglercraft-fork/refs/heads/main/modded/justinclient/v3/beta-9/v3b9.html?t=&quot;+Date.now())
-                                     .then(r=&gt;r.text()).then(h=&gt;{w.document.open();w.document.write(h);w.document.close();});
-                                     ">Justin Client</button>
-
-      <button onclick="
-                       const w=window.open(&quot;about:blank&quot;,&quot;_blank&quot;);
-                       fetch(&quot;https://raw.githubusercontent.com/odinhansen26-source/Eaglercraft-hacks/refs/heads/main/AutoClient.html?t=&quot;+Date.now())
-                       .then(r=&gt;r.text()).then(h=&gt;{w.document.open();w.document.write(h);w.document.close();});
-                       ">AutoClient</button>
-
-      <button onclick="
-                       const w=window.open(&quot;about:blank&quot;,&quot;_blank&quot;);
-                       fetch(&quot;https://raw.githubusercontent.com/ProxyNova-MC/EaglerHacks/refs/heads/main/DragonX%20V3%20Client.html?t=&quot;+Date.now())
-                       .then(r=&gt;r.text()).then(h=&gt;{w.document.open();w.document.write(h);w.document.close();});
-                       ">DragonX V3</button>
-
-      <button onclick="
-                       const w=window.open(&quot;about:blank&quot;,&quot;_blank&quot;);
-                       fetch(&quot;https://raw.githubusercontent.com/iBwrnn/EaglerClientArchive-1.8/refs/heads/main/Clients/Hacked/UwUClient%20v1%20Full.html?t=&quot;+Date.now())
-                       .then(r=&gt;r.text()).then(h=&gt;{w.document.open();w.document.write(h);w.document.close();});
-                       ">UwU Client</button>
-
-      <button onclick="
-                       const w=window.open(&quot;about:blank&quot;,&quot;_blank&quot;);
-                       fetch(&quot;https://raw.githubusercontent.com/FlamePVPCodes/Eaglercraft-Clients/refs/heads/main/flameclient%203.7.html?t=&quot;+Date.now())
-                       .then(r=&gt;r.text()).then(h=&gt;{w.document.open();w.document.write(h);w.document.close();});
-                       ">Flame Client</button>
-
-      <button onclick="
-                       const w=window.open(&quot;about:blank&quot;,&quot;_blank&quot;);
-                       fetch(&quot;https://raw.githubusercontent.com/HighlandsGames/highlandsgames.github.io/refs/heads/main/index.html?t=&quot;+Date.now())
-                       .then(r=&gt;r.text()).then(h=&gt;{w.document.open();w.document.write(h);w.document.close();});
-                       ">Highlander</button>
-
-      <button onclick="
-                       const w=window.open(&quot;about:blank&quot;,&quot;_blank&quot;);
-                       fetch(&quot;https://raw.githubusercontent.com/iBwrnn/EaglerClientArchive-1.8/refs/heads/main/Clients/Hacked/PremiumDragonv2.html?t=&quot;+Date.now())
-                       .then(r=&gt;r.text()).then(h=&gt;{w.document.open();w.document.write(h);w.document.close();});
-                       ">DragonX 1.1</button>
-
-      <button onclick="
-                       const w=window.open(&quot;about:blank&quot;,&quot;_blank&quot;);
-                       fetch(&quot;https://raw.githubusercontent.com/iBwrnn/EaglerClientArchive-1.8/refs/heads/main/Clients/Hacked/DragonX_V4.html?t=&quot;+Date.now())
-                       .then(r=&gt;r.text()).then(h=&gt;{w.document.open();w.document.write(h);w.document.close();});
-                       ">DragonX V4</button>
-
-      <button onclick="
-                       const w=window.open(&quot;about:blank&quot;,&quot;_blank&quot;);
-                       fetch(&quot;https://raw.githubusercontent.com/dhyeybg5-hash/WurstX-Client-6.35.3/refs/heads/main/WurstX_b2_1.8_WASM-GC_Offline_Download.html?t=&quot;+Date.now())
-                       .then(r=&gt;r.text()).then(h=&gt;{w.document.open();w.document.write(h);w.document.close();});
-                       ">WurstX</button>
-    </div>
-    <!-- ================= LAUNCHERS ================= -->
-    <div id="cheats" class="category">
-      <h2>Game Launchers</h2>
-      <button class=starred onclick="
-                                     const w=window.open(&quot;about:blank&quot;,&quot;_blank&quot;);
-                                     fetch(&quot;https://raw.githubusercontent.com/L3br00n/L3br0n-Proxy-Cloaker/refs/heads/main/Index.html?t=&quot;+Date.now())
-                                     .then(r=&gt;r.text()).then(h=&gt;{w.document.open();w.document.write(h);w.document.close();});
-                                     ">Website Cloaker</button>
-      <p class=centerp>Website Cloaker has Preloads
-        <button class=starred
-                onclick="
-                         const w = window.open('about:blank');
-                         fetch('https://raw.githubusercontent.com/L3br00n/HtmlIframe/refs/heads/main/index')
-                         .then(r => r.text())
-                         .then(t => {
-                         w.document.open();
-                         w.document.write(t);
-                         w.document.close();
-                         });
-                         "
-                >
-          Html Editor
-        </button>
-        
-        <button class=starre
-                onclick="
-                         const w = window.open('about:blank');
-                         fetch('https://raw.githubusercontent.com/L3br00n/chat/refs/heads/main/index.html')
-                         .then(r => r.text())
-                         .then(t => {
-                         w.document.open();
-                         w.document.write(t);
-                         w.document.close();
-                         });
-                         "
-                >
-          WMS CHAT
-        </button>
-      <h2>Games</h2>
-      <button onclick="
-                       const w=window.open(&quot;about:blank&quot;,&quot;_blank&quot;);
-                       fetch(&quot;https://raw.githubusercontent.com/L3br00n/Bloon-Td-5/refs/heads/main/index?t=&quot;+Date.now())
-                       .then(r=&gt;r.text()).then(h=&gt;{w.document.open();w.document.write(h);w.document.close();});
-                       ">Bloons TD 5</button>
-      <button
-              onclick="
-                       const w = window.open('about:blank');
-                       fetch('https://cdn.jsdelivr.net/gh/gn-math/html@main/588.html')
-                       .then(r => r.text())
-                       .then(t => {
-                       w.document.open();
-                       w.document.write(t);
-                       w.document.close();
-                       });
-                       "
-              >
-        Mario 64
-      </button>
-      <button
-              onclick="
-                       const w = window.open('about:blank');
-                       fetch('https://cdn.jsdelivr.net/gh/gn-math/html@main/547.html')
-                       .then(r => r.text())
-                       .then(t => {
-                       w.document.open();
-                       w.document.write(t);
-                       w.document.close();
-                       });
-                       "
-              >
-        Baseball Bros
-      </button>
-      <button
-              onclick="
-                       const w = window.open('about:blank');
-                       fetch('https://cdn.jsdelivr.net/gh/gn-math/html@main/285.html')
-                       .then(r => r.text())
-                       .then(t => {
-                       w.document.open();
-                       w.document.write(t);
-                       w.document.close();
-                       });
-                       "
-              >
-        Basketball Bros
-      </button>
-      <button
-              onclick="
-                       const w = window.open('about:blank');
-                       fetch('https://cdn.jsdelivr.net/gh/gn-math/html@main/66.html')
-                       .then(r => r.text())
-                       .then(t => {
-                       w.document.open();
-                       w.document.write(t);
-                       w.document.close();
-                       });
-                       "
-              >
-        Basketball Random
-      </button>
-      <button
-              onclick="
-                       const w = window.open('about:blank');
-                       fetch('https://cdn.jsdelivr.net/gh/gn-math/html@main/0.html')
-                       .then(r => r.text())
-                       .then(t => {
-                       w.document.open();
-                       w.document.write(t);
-                       w.document.close();
-                       });
-                       "
-              >
-        Bowmasters
-      </button>
-      <h2>Extra</h2>
-      <button
-              onclick="
-                       const w = window.open('about:blank');
-                       const rand = Math.floor(Math.random() * 500) + 1;
-                       fetch(`https://cdn.jsdelivr.net/gh/gn-math/html@main/${rand}.html`)
-                       .then(r => r.text())
-                       .then(t => {
-                       w.document.open();
-                       w.document.write(t);
-                       w.document.close();
-                       });
-                       "
-              >
-        Random Game
-      </button>
-      <button
-              onclick="
-                       const w = window.open('about:blank');
-                       fetch('https://raw.githubusercontent.com/L3br00n/Disco/refs/heads/main/index.html')
-                       .then(r => r.text())
-                       .then(t => {
-                       w.document.open();
-                       w.document.write(t);
-                       w.document.close();
-                       });
-                       "
-              >
-        DISCORD IN ABOUT:BLANK
-      </button>
-    </div>
-  </body>
+</body>
 </html>
-
-
-
