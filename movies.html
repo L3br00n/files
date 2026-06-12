@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Movies</title>
+</head>
+<body>
+
+<div>
+  <h1>MOVIES</h1>
+</div>
+
+<button onclick='
+  const win = window.open("about:blank", "_blank");
+
+  fetch("https://raw.githubusercontent.com/L3br00n/testtt/refs/heads/main/index.html?t=" + Date.now())
+    .then(r => r.text())
+    .then(html => {
+      win.document.open();
+      win.document.write(html);
+      win.document.close();
+    });
+'>
+Movie Site
+</button>
+
+</body>
+</html>
