@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <title>Open Embedded Page</title>
+</head>
+<body>
+
+
+<button onclick="openEmbed()">Open Site</button>
+
+
+<script>
+function openEmbed() {
+ const newTab = window.open("about:blank", "_blank");
+
+
+ newTab.document.write(`
+   <!DOCTYPE html>
+   <html>
+   <head>
+     <title>Embedded</title>
+     <style>
+       html, body {
+         margin: 0;
+         padding: 0;
+         height: 100%;
+         overflow: hidden;
+       }
+       iframe {
+         width: 100%;
+         height: 100%;
+         border: none;
+       }
+     </style>
+   </head>
+   <body>
+     <iframe src="https://veck.nikegtag.workers.dev"></iframe>
+   </body>
+   </html>
+ `);
+
+
+ newTab.document.close();
+}
+</script>
+
+
+</body>
+</html>
+
