@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Game Hub</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #0f0f13;
+    color: white;
+}
+
+.topbar {
+    padding: 1rem;
+    text-align: center;
+    background: #141420;
+    font-weight: bold;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.card {
+    background: #1c1c24;
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.card img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+}
+
+.card-title {
+    padding: 8px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.genre {
+    text-align: center;
+    font-size: 12px;
+    opacity: 0.7;
+    margin-bottom: 6px;
+}
+
+.btns {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 8px;
+}
+
+button {
+    padding: 8px;
+    border: none;
+    border-radius: 8px;
+    background: #2a2a35;
+    color: white;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #3a3a4a;
+}
+</style>
+</head>
+
+<body>
+
+<div class="topbar">GAME HUB (FETCH LOADER)</div>
+
+<div class="grid" id="grid"></div>
+
+<script>
+const games = [
+{
+    name: "Geometry Dash",
+    genre: "Rhythm",
+    cover: "https://cdn.jsdelivr.net/gh/freebuisness/covers@main/785.png",
+    url: "https://cdn.jsdelivr.net/gh/freebuisness/html@main/785-upd2.html"
+},
+{
+    name: "Muddy Heights",
+    genre: "Port",
+    cover: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTm1qlcfblzpkjWZVLgUEmaNYYBWrr9doKUzsSbQuxtkTc8cNzjXFWjn27NVppUvYFU3K3_ix2KvHVBad9gJEdw2fnbkHz6H8AxRDRhD14&s=10",
+    url: "https://raw.githubusercontent.com/L3br00n/muddy-height-singlefile/refs/heads/main/Muddy%20Heights.html"
+},
+{
+    name: "Just Shapes & Beats",
+    genre: "Rhythm",
+    cover: "https://cdn.jsdelivr.net/gh/freebuisness/covers@main/826.png",
+    url: "https://cdn.jsdelivr.net/gh/freebuisness/html@main/826-f.html"
+},
+{
+    name: "BuildNow.gg",
+    genre: "Shooter",
+    cover: "https://cdn.jsdelivr.net/gh/freebuisness/covers@main/581.png",
+    url: "https://cdn.jsdelivr.net/gh/freebuisness/html@main/581.html"
+},
+{
+    name: "Bendy",
+    genre: "Horror",
+    cover: "https://cdn.jsdelivr.net/gh/freebuisness/covers@main/803.png",
+    url: "https://cdn.jsdelivr.net/gh/freebuisness/html@main/803-fix.html"
+},
+{
+    name: "Lethal Ape",
+    genre: "Horror",
+    cover: "https://cdn.jsdelivr.net/gh/freebuisness/covers@main/793.png",
+    url: "https://cdn.jsdelivr.net/gh/freebuisness/html@main/793.html"
+},
+{
+    name: "Dashmetry",
+    genre: "Rhythm",
+    cover: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpcAAohP-ayOJO3fnQT3kr660cABDZk21-4A&s",
+    url: "https://raw.githubusercontent.com/L3br00n/Dashmetry/refs/heads/main/index.html"
+},
+{
+    name: "Among Us Online",
+    genre: "Mystery",
+    cover: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTlOXuYTLg4z30jM8EME8Ch-OWSRIMh3ZZS2w&s",
+    url: "https://raw.githubusercontent.com/Bruhyeets/among-us234/refs/heads/main/index.html"
+},
+{
+    name: "Fish",
+    genre: "Port",
+    cover: "",
+    url: "https://raw.githubusercontent.com/web-ports/fish/refs/heads/main/index.html"
+}
+];
+
+const grid = document.getElementById("grid");
+
+function openFetchBlank(url, name) {
+    const win = window.open("about:blank", "_blank");
+
+    fetch(url + "?t=" + Date.now())
+        .then(r => r.text())
+        .then(html => {
+
+            win.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                <title>${name}</title>
+                <style>
+                    html,body {
+                        margin:0;
+                        height:100%;
+                        overflow:hidden;
+                        background:black;
+                    }
+                    iframe {
+                        width:100%;
+                        height:100%;
+                        border:none;
+                    }
+                </style>
+                </head>
+                <body>
+                    <iframe srcdoc="${html.replace(/"/g, '&quot;')}"></iframe>
+                </body>
+                </html>
+            `);
+
+            win.document.close();
+        })
+        .catch(err => {
+            win.document.write("<h1>Failed to load</h1><pre>" + err + "</pre>");
+        });
+}
+
+function render() {
+    grid.innerHTML = "";
+
+    for (const game of games) {
+
+        const div = document.createElement("div");
+        div.className = "card";
+
+        div.innerHTML = `
+            <img src="${game.cover || 'https://picsum.photos/300/200'}">
+            <div class="card-title">${game.name}</div>
+            <div class="genre">${game.genre}</div>
+            <div class="btns">
+                <button>Play</button>
+            </div>
+        `;
+
+        div.querySelector("button").onclick = () => {
+            openFetchBlank(game.url, game.name);
+        };
+
+        grid.appendChild(div);
+    }
+}
+
+render();
+</script>
+
+</body>
+</html>
