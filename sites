@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Fern Hub</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #0f0f13;
+    color: white;
+}
+
+.header {
+    text-align: center;
+    padding: 20px;
+    background: #141420;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.container {
+    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 10px;
+}
+
+button {
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    background: #2a2a35;
+    color: white;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+button:hover {
+    background: #3a3a4a;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">FERN HUB</div>
+
+<div class="container" id="buttons"></div>
+
+<script>
+const fernLinks = {
+    "Bull Best YouTuber": "https://s3.amazonaws.com/bullbestyoutuber/index.html",
+    "Bulledu": "https://s3.amazonaws.com/bulledu/index.html",
+    "Bull Guardian": "https://s3.amazonaws.com/bullguardian/index.html",
+    "Bull Is Goated": "https://s3.amazonaws.com/bullisgoated/index.html",
+    "Bull LightSpeed": "https://s3.amazonaws.com/bulllightspeed/index.html",
+    "Bull Math": "https://s3.amazonaws.com/bullmath/index.html",
+    "Bull UBG": "https://s3.amazonaws.com/bullubg/index.html",
+
+    "I Love Literatures": "https://s3.amazonaws.com/iloveliteratures/index.html",
+    "I Love Maths": "https://s3.amazonaws.com/ilovemaths/index.html",
+
+    "LS Relay": "https://s3.amazonaws.com/lsrelay-extension-production/index.html",
+
+    "Macrolo": "https://s3.amazonaws.com/macrolo/index.html",
+    "Macrolo Goat": "https://s3.amazonaws.com/macrologoat/index.html",
+    "Macrolo Math": "https://s3.amazonaws.com/macrolomath/index.html",
+
+    "Angel Fern": "https://s3.amazonaws.com/angelfern/index.html",
+    "Deagan Fern": "https://s3.amazonaws.com/deaganfern/index.html",
+
+    "Bull Reading": "https://s3.amazonaws.com/bullreading/index.html",
+
+    "Fern S3T": "https://s3.amazonaws.com/fern-s3t/index.html",
+    "Fern VCSA": "https://s3.amazonaws.com/fernvcsa/index.html",
+
+    "FS Math": "https://s3.amazonaws.com/fsmath/index.html",
+    "FS Reading": "https://s3.amazonaws.com/fsreading/index.html",
+    "FS Students Are Inventors": "https://s3.amazonaws.com/fstudentsareinventors/index.html",
+
+    "GL With Finals": "https://s3.amazonaws.com/glwithfinals/index.html",
+
+    "Math VC": "https://s3.amazonaws.com/mathvc/index.html",
+    "One Last Link": "https://s3.amazonaws.com/onelastlink/index.html",
+    "Read VC": "https://s3.amazonaws.com/readvc/index.html",
+
+    "VCSA Fern": "https://s3.amazonaws.com/vcsafern/index.html",
+    "VCSA Math": "https://s3.amazonaws.com/vcsamath/index.html",
+    "VCSA Reading": "https://s3.amazonaws.com/vcsareading/index.html"
+};
+
+const container = document.getElementById("buttons");
+
+function openInBlank(url) {
+    const win = window.open("about:blank", "_blank");
+
+    win.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+        <title>Fern</title>
+        <style>
+            html, body {
+                margin: 0;
+                height: 100%;
+                overflow: hidden;
+                background: black;
+            }
+            iframe {
+                width: 100%;
+                height: 100%;
+                border: none;
+            }
+        </style>
+        </head>
+        <body>
+            <iframe src="${url}"></iframe>
+        </body>
+        </html>
+    `);
+
+    win.document.close();
+}
+
+// build buttons
+for (const name in fernLinks) {
+    const btn = document.createElement("button");
+    btn.textContent = name;
+
+    btn.onclick = () => openInBlank(fernLinks[name]);
+
+    container.appendChild(btn);
+}
+</script>
+
+</body>
+</html>
