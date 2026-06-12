@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WORDLE SOLVER</title>
+
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{--bg:#0e0e0e;--surface2:#252525;--green:#6aaa64;--yellow:#c9b458;--gray:#444;--text:#f0ede8;--border:#333}
+body{background:var(--bg);color:var(--text);font-family:'IBM Plex Mono';display:flex;flex-direction:column;align-items:center;padding:20px}
+h1{letter-spacing:.3em;color:var(--green);margin-bottom:8px}
+.guess-row{display:flex;gap:6px;margin:6px 0}
+.box{width:50px;height:50px;display:flex;align-items:center;justify-content:center;font-weight:700;border:2px solid var(--border);background:var(--surface2);cursor:pointer}
+.box.green{background:var(--green);color:#000}
+.box.yellow{background:var(--yellow);color:#000}
+.box.gray{background:var(--gray)}
+input{background:var(--surface2);border:1px solid var(--border);color:white;padding:8px;text-transform:uppercase;letter-spacing:.2em}
+button{margin-top:6px;padding:10px;background:var(--green);border:none;cursor:pointer;font-weight:bold}
+.results{margin-top:12px;max-width:600px;text-align:center}
+.word{display:inline-block;margin:3px;padding:4px 7px;background:var(--surface2);border:1px solid var(--border);cursor:pointer}
+.word:hover{border-color:var(--green);color:var(--green)}
+.best{color:var(--green);font-size:1.5rem;letter-spacing:.2em;margin-bottom:4px}
+.toggle{margin-top:6px;font-size:.8rem;cursor:pointer;color:#aaa}
+.controls{display:flex;gap:6px;margin-top:6px}
+.reset{background:#222;color:#aaa;border:1px solid var(--border)}
+.stat{margin-top:10px;font-size:.8rem;color:#aaa}
+</style>
+</head>
+
+<body>
+
+<h1>WORDLE SOLVER</h1>
+
+<input id="guessInput" maxlength="5" placeholder="GUESS">
+<div class="controls">
+<button onclick="addGuess()">ADD</button>
+<button class="reset" onclick="resetAll()">RESET</button>
+</div>
+
+<div id="guesses"></div>
+
+<button onclick="solve()">SOLVE</button>
+
+<div class="results">
+<div id="best"></div>
+<div id="list"></div>
+<div class="toggle" onclick="toggleView()" id="toggleBtn"></div>
+</div>
+
+<div class="stat" id="stats">0/0 (0%)</div>
+
+<script>
+let WORD_LIST=[];
+fetch("https://raw.githubusercontent.com/tabatkins/wordle-list/refs/heads/main/words")
+.then(r=>r.text())
+.then(t=>WORD_LIST=t.split("\n").map(w=>w.trim()));
+
+let guesses=[];
+let showCount=5;
+let games=0,wins=0;
+let countedWin=false;
+
+function addGuess(){
+const i=document.getElementById("guessInput");
+const w=i.value.toLowerCase();
+if(w.length!==5)return;
+guesses.push({word:w,states:["gray","gray","gray","gray","gray"]});
+i.value="";
+countedWin=false;
+renderGuesses();
+}
+
+function renderGuesses(){
+const c=document.getElementById("guesses");c.innerHTML="";
+guesses.forEach(g=>{
+const r=document.createElement("div");r.className="guess-row";
+g.word.split("").forEach((ch,i)=>{
+const b=document.createElement("div");
+b.className="box "+g.states[i];
+b.textContent=ch.toUpperCase();
+b.onclick=()=>{
+const o=["gray","yellow","green"];
+g.states[i]=o[(o.indexOf(g.states[i])+1)%3];
+renderGuesses();
+checkWin();
+};
+r.appendChild(b);
+});
+c.appendChild(r);
+});
+}
+
+function checkWin(){
+if(countedWin)return;
+for(const g of guesses){
+if(g.states.every(s=>s==="green")){
+games++;wins++;countedWin=true;updateStats();return;
+}}
+}
+
+function valid(word){
+for(const g of guesses){
+for(let i=0;i<5;i++){
+const l=g.word[i],s=g.states[i];
+if(s==="green"&&word[i]!==l)return false;
+if(s==="yellow"){if(!word.includes(l)||word[i]===l)return false;}
+if(s==="gray"){if(word.includes(l))return false;}
+}}
+return true;
+}
+
+function score(words){
+const f={};
+words.forEach(w=>[...new Set(w)].forEach(c=>f[c]=(f[c]||0)+1));
+return words.map(w=>{
+let s=0;[...new Set(w)].forEach(c=>s+=f[c]||0);
+return{w,s};
+}).sort((a,b)=>b.s-a.s);
+}
+
+function solve(){
+const filtered=WORD_LIST.filter(valid);
+const scored=score(filtered);
+const best=scored[0]?.w||"";
+document.getElementById("best").innerHTML=best?`<div class="best">${best.toUpperCase()}</div>`:"";
+renderList(scored);
+}
+
+function renderList(scored){
+const list=document.getElementById("list");list.innerHTML="";
+const vis=(showCount===Infinity)?scored:scored.slice(0,showCount);
+vis.forEach(o=>{
+const el=document.createElement("span");
+el.className="word";
+el.textContent=o.w;
+el.onclick=()=>document.getElementById("guessInput").value=o.w;
+list.appendChild(el);
+});
+document.getElementById("toggleBtn").textContent=showCount===Infinity?"show less":"show more";
+}
+
+function toggleView(){
+if(showCount===5)showCount=10;
+else if(showCount===10)showCount=Infinity;
+else showCount=5;
+solve();
+}
+
+function resetAll(){
+if(!countedWin&&guesses.length>0){games++;updateStats();}
+guesses=[];
+countedWin=false;
+document.getElementById("guesses").innerHTML="";
+document.getElementById("best").innerHTML="";
+document.getElementById("list").innerHTML="";
+document.getElementById("guessInput").value="";
+}
+
+function updateStats(){
+const pct=games?Math.round((wins/games)*100):0;
+document.getElementById("stats").textContent=`${wins}/${games} (${pct}%)`;
+}
+</script>
+
+</body>
+</html>
