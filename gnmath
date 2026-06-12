@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>GN-MATH CODE</title>
+</head>
+<body>
+
+<div>
+  <h1>GN MATH</h1>
+</div>
+
+<button onclick="
+  fetch('https://raw.githubusercontent.com/Lumi-f3m/Gn-Math/refs/heads/main/index.html?t=' + Date.now())
+    .then(r => r.text())
+    .then(html => {
+      document.open();
+      document.write(html);
+      document.close();
+    });
+">
+homework
+</button>
+
+<div id="content"></div>
+
+</body>
+</html>
