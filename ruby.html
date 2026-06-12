@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Ruby Proxy</title>
+</head>
+
+<body>
+
+<div>
+  <h1>Ruby Proxy</h1>
+  <p>Has Movies and I made this</p>
+</div>
+
+<button onclick='
+  const newTab = window.open("about:blank", "_blank");
+
+  fetch("https://raw.githubusercontent.com/L3br00n/Ruby/refs/heads/main/index.html?t=" + Date.now())
+    .then(r => r.text())
+    .then(html => {
+      newTab.document.open();
+      newTab.document.write(html);
+      newTab.document.close();
+    })
+    .catch(err => {
+      newTab.document.write("<h1>Failed to load file</h1><pre>" + err + "</pre>");
+    });
+'>
+Load!
+</button>
+
+</body>
+</html>
